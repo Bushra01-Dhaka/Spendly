@@ -4,6 +4,7 @@ import Login from "../Pages/Login";
 import DashborardLayout from "../Layout/DashborardLayout";
 import UserDashboard from "../Pages/DashboardHome/UserDashboard";
 import UserProfile from "../Pages/Dashboard/Userprofile";
+import AddIncome from "../Pages/Dashboard/AddIncome";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path:"profile",
         Component: UserProfile,
+      },
+      {
+        path:"addIncome",
+        Component:AddIncome,
       }
      ]
   }

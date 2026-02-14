@@ -166,14 +166,14 @@ const DashboardLayout = () => {
 
           <li>
             <NavLink
-              to="/dashboard/userParcels"
+              to="/dashboard/addIncome"
               className={({ isActive }) =>
                 `flex items-center gap-3 py-2 mb-4 mx-6 text-secondary hover:font-bold
      ${isActive ? "bg-primary font-bold" : "hover:bg-primary"}`
               }
             >
               <TbTruckDelivery className="text-xl" />
-              My Parcel
+              Add Income
             </NavLink>
           </li>
 
