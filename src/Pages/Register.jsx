@@ -1,15 +1,49 @@
 import { useForm } from "react-hook-form";
+import useAuth from "../Hooks/useAuth";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const {
     register,
+    refetch,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+
+  const {createUser, updateUserProfile} = useAuth();
+
   const onSubmit = (data) => {
     console.log(data);
+    createUser(data.email, data.password)
+    .then(result => {
+      console.log(result.user);
+      navigate("/dashboard");
+      toast.success('Successfully Registered!');
+
+
+       // update user profile in firebase
+        const userProfile = {
+          displayName: data.name,
+          // photoURL: profilePic
+        }
+        updateUserProfile(userProfile)
+        .then(() => {
+          console.log("Profile Name and Picture updated");
+          refetch;
+        } )
+        .catch(error => {
+          console.error(error);
+        })
+
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
   }
 
   return (

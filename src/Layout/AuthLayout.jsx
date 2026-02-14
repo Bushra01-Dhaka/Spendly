@@ -7,7 +7,7 @@ import Register from "../Pages/Register";
 import authImg from "../assets/authImg.jpg"
 const AuthLayout = () => {
   return (
-    <section className="flex justify-center items-center min-h-screen p-10 lg:p-20 bg-black">
+    <section className="flex justify-center items-center min-h-screen p-10 lg:p-20 ">
       <div className=" flex flex-col lg:flex-row justify-between items-center gap-6 ">
         {/* left */}
         <div className="flex-1">
@@ -25,11 +25,11 @@ const AuthLayout = () => {
 
           <div className="py-10">
             <Tabs>
-              <TabList className="flex justify-center items-center border-1 text-center mb-10">
-                <Tab className="w-full rounded-0 p-4 text-primary mx-auto border-0 border-r-1">
+              <TabList className="flex justify-center items-center border-1 bg-yellow-500 text-center mb-10">
+                <Tab className="w-full cursor-pointer bg-black rounded-0  p-4 text-primary mx-auto border-0 border-r-1">
                   Log In
                 </Tab>
-                <Tab className="w-full rounded-0 border-0 p-4 text-primary  mx-auto">
+                <Tab className="w-full cursor-pointer bg-black rounded-0 border-0 p-4 text-primary  mx-auto">
                   Register
                 </Tab>
               </TabList>
