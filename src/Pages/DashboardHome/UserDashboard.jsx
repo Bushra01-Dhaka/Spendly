@@ -5,6 +5,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { FaMinusCircle } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import AllIncomeData from "../Dashboard/AllIncomeData";
 
 const UserDashboard = () => {
   const { user } = useAuth();
@@ -98,6 +99,11 @@ const UserDashboard = () => {
           </div>
 
         </div>
+
+        <div className="p-10 py-20">
+             <AllIncomeData/>
+        </div>
+
       </div>
     </section>
   );

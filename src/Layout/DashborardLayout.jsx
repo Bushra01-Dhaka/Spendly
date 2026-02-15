@@ -192,14 +192,14 @@ const DashboardLayout = () => {
 
           <li>
             <NavLink
-              to="/dashboard/track"
+              to="/dashboard/budgetTracker"
               className={({ isActive }) =>
                 `flex items-center gap-3 py-2 mb-4 mx-6 text-secondary hover:font-bold
      ${isActive ? "bg-primary font-bold" : "hover:bg-primary"}`
               }
             >
               <FaTruck className="text-lg" />
-              Track Your Parcel
+              Budget Tracker
             </NavLink>
           </li>
 

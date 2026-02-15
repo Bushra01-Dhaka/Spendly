@@ -6,6 +6,7 @@ import UserDashboard from "../Pages/DashboardHome/UserDashboard";
 import UserProfile from "../Pages/Dashboard/Userprofile";
 import AddIncome from "../Pages/Dashboard/AddIncome";
 import AddExpenses from "../Pages/Dashboard/AddExpenses";
+import AllIncomeData from "../Pages/Dashboard/AllIncomeData";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path:"addExpenses",
         Component: AddExpenses,
+      },
+      {
+        path:"budgetTracker",
+        Component: AllIncomeData,
       }
      ]
   }
