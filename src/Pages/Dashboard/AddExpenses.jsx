@@ -1,26 +1,24 @@
-
 import { useForm } from "react-hook-form";
 
-const AddIncome = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
+const AddExpenses = () => {
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
-  };
+    const {
+        register,
+        handleSubmit,
+        formState: {errors},
+        reset,
+    } = useForm();
 
+    const onSubmit = (data) => {
+        console.log(data);
+        reset();
+    }
   return (
     <div className="flex justify-start items-center py-20 p-10 bg-linear-to-r from-yellow-200 to-yellow-400">
       <div className="w-full  bg-slate-100 shadow-lg rounded-2xl p-8">
-        <h2 className="text-4xl font-bold mb-6">Add Income</h2>
+        <h2 className="text-4xl font-bold mb-6">Add Expenses</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 py-10">
-          
           {/* Amount */}
           <div>
             <label className="block mb-1 font-medium">Amount</label>
@@ -79,9 +77,7 @@ const AddIncome = () => {
               className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             {errors.date && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.date.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.date.message}</p>
             )}
           </div>
 
@@ -116,4 +112,4 @@ const AddIncome = () => {
   );
 };
 
-export default AddIncome;
+export default AddExpenses;

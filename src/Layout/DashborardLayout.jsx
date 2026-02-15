@@ -179,14 +179,14 @@ const DashboardLayout = () => {
 
           <li>
             <NavLink
-              to="/dashboard/paymentHistory"
+              to="/dashboard/addExpenses"
               className={({ isActive }) =>
                 `flex items-center gap-3 py-2 mb-4 mx-6 text-secondary hover:font-bold
      ${isActive ? "bg-primary font-bold" : "hover:bg-primary"}`
               }
             >
               <FaHistory className="text-lg" />
-              Payment History
+              Add Expenses
             </NavLink>
           </li>
 

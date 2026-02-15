@@ -36,13 +36,13 @@ const UserDashboard = () => {
           </div>
 
           <div className="">
-            <Link>
+            <Link to="/dashboard/addIncome">
               <button className="btn w-full border-0 rounded-md shadow-2xl btn-primary bg-black text-yellow-400 hover:text-yellow-200 hover:bg-slate-950 mb-4">
                 <IoIosAddCircle className="text-3xl inline" />
                 Add Income
               </button>
             </Link>
-            <Link>
+            <Link to="/dashboard/addExpenses">
               {" "}
               <button className="btn w-full border-0 rounded-md shadow-2xl btn-primary bg-black text-yellow-400 hover:text-yellow-200 hover:bg-slate-950">
                 <FaMinusCircle className="text-2xl inline" />

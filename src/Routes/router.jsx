@@ -5,6 +5,7 @@ import DashborardLayout from "../Layout/DashborardLayout";
 import UserDashboard from "../Pages/DashboardHome/UserDashboard";
 import UserProfile from "../Pages/Dashboard/Userprofile";
 import AddIncome from "../Pages/Dashboard/AddIncome";
+import AddExpenses from "../Pages/Dashboard/AddExpenses";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path:"addIncome",
         Component:AddIncome,
+      },
+      {
+        path:"addExpenses",
+        Component: AddExpenses,
       }
      ]
   }
