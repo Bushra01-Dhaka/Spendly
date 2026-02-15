@@ -1,8 +1,11 @@
 import useAuth from "../../Hooks/useAuth";
 
-
 const UserProfile = () => {
   const { user } = useAuth();
+
+  const lastLogin = user?.metadata?.lastSignInTime
+    ? new Date(user.metadata.lastSignInTime).toLocaleString()
+    : "Not available";
 
   return (
     <div className="max-w-md hover:bg-linear-to-l cursor-pointer  bg-linear-to-r from-yellow-300 to-yellow-500 shadow-xl rounded-2xl p-6 m-10 shadow-yellow-400">
@@ -24,6 +27,15 @@ const UserProfile = () => {
             {user?.email || "No email available"}
           </p>
         </div>
+
+        {/* Last Logged In */}
+        <div>
+          <p className="text-sm text-gray-600">Last Logged In</p>
+          <p className="text-lg font-medium text-gray-800">
+            {lastLogin}
+          </p>
+        </div>
+        
       </div>
     </div>
   );

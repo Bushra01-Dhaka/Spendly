@@ -123,7 +123,7 @@ const DashboardLayout = () => {
           </div>
         </div>
         {/* Page content here */}
-        <div className=" lg:w-[100%] w-full min-h-screen bg-linear-to-br from-white to-yellow-300">
+        <div className=" lg:w-[100%] w-full min-h-screen bg-linear-to-br from-white to-yellow-400">
           <Outlet></Outlet>
         </div>
         {/* Page content here */}

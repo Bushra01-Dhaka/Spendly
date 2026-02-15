@@ -18,7 +18,7 @@ createRoot(document.getElementById("root")).render(
           style: {
             borderRadius: "12px",
             background: "#0000",
-            color: "#fff",
+            color: "#000",
           },
         }}
       />
