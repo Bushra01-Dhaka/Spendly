@@ -1,55 +1,102 @@
 import { Link } from "react-router";
-import useAuth from "../../Hooks/useAuth";
+
+import { useQuery } from "@tanstack/react-query";
 import { IoIosAddCircle } from "react-icons/io";
 import { FaMinusCircle } from "react-icons/fa";
+import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const UserDashboard = () => {
   const { user } = useAuth();
-  console.log(user?.displayName);
+  const axiosSecure = useAxiosSecure();
+
+  // Fetch Incomes
+  const { data: incomes = [] } = useQuery({
+    queryKey: ["incomes", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/incomes?email=${user.email}`
+      );
+      return res.data;
+    },
+  });
+
+  // Fetch Expenses
+  const { data: expenses = [] } = useQuery({
+    queryKey: ["expenses", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/expenses?email=${user.email}`
+      );
+      return res.data;
+    },
+  });
+
+  // Calculate Totals
+  const totalIncome = incomes.reduce(
+    (sum, item) => sum + parseFloat(item.amount),
+    0
+  );
+
+  const totalExpenses = expenses.reduce(
+    (sum, item) => sum + parseFloat(item.amount),
+    0
+  );
+
+  const balance = totalIncome - totalExpenses;
+
   return (
     <section className="flex justify-start items-center min-h-[10vh] p-10">
       <div>
-        <div>
-          <h2 className="text-3xl font-bold font-outfit text-black">
-            Welcome Back! {user?.displayName}
-          </h2>
-          <p className="py-2">
-            View Your monthly spending, saving progress and budget for this
-            month.
-          </p>
-        </div>
+        <h2 className="text-3xl font-bold text-black">
+          Welcome Back! {user?.displayName}
+        </h2>
 
-        <div className="grid grid-cols-1  lg:grid-cols-4 py-10 gap-6">
-          <div className="bg-linear-to-tr cursor-pointer hover:bg-linear-to-r  from-yellow-500 to-yellow-300 text-black p-10 rounded-md shadow-2xl">
-            <p className="text-lg">Monthly Income</p>
-            <h3 className="text-3xl font-bold py-4">$10000</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-4 py-10 gap-6">
+
+          {/* Income */}
+          <div className="bg-yellow-400 p-10 rounded-md shadow-xl">
+            <p>Total Income</p>
+            <h3 className="text-3xl font-bold">
+              ${totalIncome.toFixed(2)}
+            </h3>
           </div>
 
-          <div className="bg-linear-to-tr cursor-pointer hover:bg-linear-to-r  from-yellow-500 to-yellow-300 text-black p-10 rounded-md shadow-2xl">
-            <p className="text-lg">Monthly Expenses</p>
-            <h3 className="text-3xl font-bold py-4">$6600</h3>
+          {/* Expenses */}
+          <div className="bg-yellow-400 p-10 rounded-md shadow-xl">
+            <p>Total Expenses</p>
+            <h3 className="text-3xl font-bold">
+              ${totalExpenses.toFixed(2)}
+            </h3>
           </div>
 
-          <div className="bg-linear-to-tr cursor-pointer hover:bg-linear-to-r  from-yellow-500 to-yellow-300 text-black p-10 rounded-md shadow-2xl">
-            <p className="text-lg">Monthly Saving</p>
-            <h3 className="text-3xl font-bold py-4">$3400</h3>
+          {/* Balance */}
+          <div className="bg-yellow-400 p-10 rounded-md shadow-xl">
+            <p>Balance</p>
+            <h3 className="text-3xl font-bold">
+              ${balance.toFixed(2)}
+            </h3>
           </div>
 
-          <div className="">
+          {/* Buttons */}
+          <div>
             <Link to="/dashboard/addIncome">
-              <button className="btn w-full border-0 rounded-md shadow-2xl btn-primary bg-black text-yellow-400 hover:text-yellow-200 hover:bg-slate-950 mb-4">
-                <IoIosAddCircle className="text-3xl inline" />
+              <button className="btn w-full mb-4">
+                <IoIosAddCircle className="inline text-2xl" />
                 Add Income
               </button>
             </Link>
+
             <Link to="/dashboard/addExpenses">
-              {" "}
-              <button className="btn w-full border-0 rounded-md shadow-2xl btn-primary bg-black text-yellow-400 hover:text-yellow-200 hover:bg-slate-950">
-                <FaMinusCircle className="text-2xl inline" />
+              <button className="btn w-full">
+                <FaMinusCircle className="inline text-2xl" />
                 Add Expenses
               </button>
             </Link>
           </div>
+
         </div>
       </div>
     </section>

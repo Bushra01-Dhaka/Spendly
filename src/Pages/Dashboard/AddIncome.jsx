@@ -1,5 +1,8 @@
-
 import { useForm } from "react-hook-form";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
+import useAuth from "../../Hooks/useAuth";
 
 const AddIncome = () => {
   const {
@@ -8,10 +11,34 @@ const AddIncome = () => {
     formState: { errors },
     reset,
   } = useForm();
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+  const {user} = useAuth();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
     reset();
+
+    const incomeInfo = {
+      amount: data.amount,
+      category: data.category,
+      description: data.description,
+      date: data.date,
+      status: data.status,
+      createdAt: new Date(),
+      email: user?.email
+    };
+
+    const incomeRes = await axiosSecure.post("/incomes", incomeInfo);
+    Swal.fire({
+      title: "Income Added Successfully!",
+      icon: "success",
+      draggable: true,
+    });
+
+    navigate("/dashboard");
+
+
   };
 
   return (
@@ -20,7 +47,6 @@ const AddIncome = () => {
         <h2 className="text-4xl font-bold mb-6">Add Income</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 py-10">
-          
           {/* Amount */}
           <div>
             <label className="block mb-1 font-medium">Amount</label>
@@ -79,9 +105,7 @@ const AddIncome = () => {
               className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             {errors.date && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.date.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.date.message}</p>
             )}
           </div>
 

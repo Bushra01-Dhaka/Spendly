@@ -1,4 +1,8 @@
 import { useForm } from "react-hook-form";
+import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const AddExpenses = () => {
 
@@ -8,10 +12,34 @@ const AddExpenses = () => {
         formState: {errors},
         reset,
     } = useForm();
+    const {user}  = useAuth();
+    const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
 
-    const onSubmit = (data) => {
+
+    const onSubmit = async(data) => {
         console.log(data);
         reset();
+
+
+        const expenseInfo = {
+              amount: data.amount,
+              category: data.category,
+              description: data.description,
+              date: data.date,
+              status: data.status,
+              createdAt: new Date(),
+              email: user?.email,
+            };
+        
+            const expenseRes = await axiosSecure.post("/expenses", expenseInfo);
+            Swal.fire({
+              title: "Expenses Added Successfully!",
+              icon: "success",
+              draggable: true,
+            });
+        
+            navigate("/dashboard");
     }
   return (
     <div className="flex justify-start items-center py-20 p-10 bg-linear-to-r from-yellow-200 to-yellow-400">
@@ -44,10 +72,13 @@ const AddExpenses = () => {
               className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option value="">Select Category</option>
-              <option value="Salary">Salary</option>
-              <option value="Freelance">Freelance</option>
-              <option value="Business">Business</option>
-              <option value="Investment">Investment</option>
+              <option value="Salary">House Rent</option>
+              <option value="Freelance">Electric Bill</option>
+              <option value="Business">Gas Bill</option>
+              <option value="Investment">Wasa Bill</option>
+              <option value="Investment">Service Charge</option>
+              <option value="Investment">Market</option>
+              <option value="Investment">Cloths</option>
               <option value="Other">Other</option>
             </select>
             {errors.category && (
@@ -104,7 +135,7 @@ const AddExpenses = () => {
             type="submit"
             className="w-full bg-linear-to-r hover:bg-linear-to-l from-yellow-400 to-yellow-500 text-black py-3 rounded-lg font-semibold 0 transition duration-300"
           >
-            Add Income
+            Add Expenses
           </button>
         </form>
       </div>
