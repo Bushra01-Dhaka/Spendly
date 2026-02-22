@@ -1,7 +1,7 @@
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, ScrollRestoration, useNavigate } from "react-router";
 import { RxDashboard } from "react-icons/rx";
 import { TbTruckDelivery } from "react-icons/tb";
-import logo from "/logo.png"
+import logo from "/logo.png";
 import {
   FaHistory,
   FaTruck,
@@ -9,11 +9,25 @@ import {
   FaMotorcycle,
   FaUserClock,
   FaCheckCircle,
+  FaPowerOff,
 } from "react-icons/fa";
 import { FaMoneyBillWave, FaRoute, FaUserShield } from "react-icons/fa6";
+import useAuth from "../Hooks/useAuth";
 // import useRole from "../Hooks/useRole";
-
 const DashboardLayout = () => {
+  const { user, logOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    logOut()
+      .then((res) => {
+        console.log(res);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -140,16 +154,16 @@ const DashboardLayout = () => {
           <div className="text-start flex items-start p-4 mb-6">
             {/* <ParcelioLogo></ParcelioLogo> */}
             <div className="p-4">
-                <img
-                  className="w-[50px] h-[50px] bg-yellow-400 shadow-xl shadow-yellow-400 rounded-full mx-auto object-cover"
-                  src={logo}
-                  alt=""
-                />
-                <h2 className="text-3xl lg:text-4xl font-bold text-primary text-center py-2">
-                  Spendly
-                </h2>
-                <p className=" text-center">Your Personal Budget Buddy</p>
-              </div>
+              <img
+                className="w-[50px] h-[50px] bg-yellow-400 shadow-xl shadow-yellow-400 rounded-full mx-auto object-cover"
+                src={logo}
+                alt=""
+              />
+              <h2 className="text-3xl lg:text-4xl font-bold text-primary text-center py-2">
+                Spendly
+              </h2>
+              <p className=" text-center">Your Personal Budget Buddy</p>
+            </div>
           </div>
           <li>
             <NavLink
@@ -215,8 +229,21 @@ const DashboardLayout = () => {
               My Profile
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              onClick={handleLogOut}
+              className={({ isActive }) =>
+                `flex items-center gap-3 py-2 mb-4 mx-6 text-primary hover:font-bold
+     ${isActive ? "bg-black font-bold " : "hover:bg-primary"}`
+              }
+            >
+              <FaPowerOff className="text-lg"></FaPowerOff>
+              Log Out
+            </NavLink>
+          </li>
         </ul>
       </div>
+      <ScrollRestoration/>
     </div>
   );
 };

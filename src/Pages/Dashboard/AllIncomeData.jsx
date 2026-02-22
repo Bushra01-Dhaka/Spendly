@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { FaDumpster, FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const AllIncomeData = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
@@ -33,6 +39,37 @@ const AllIncomeData = () => {
       return res.data;
     },
   });
+
+  const deleteMutation = useMutation({
+  mutationFn: async (id) => {
+    return await axiosSecure.delete(`/income/${id}`);
+  },
+  onSuccess: () => {
+    // Refetch incomes automatically
+    QueryClient.invalidateQueries(["incomes"]);
+    toast.success("Deleted successfully");
+  },
+  onError: () => {
+    toast.error("Delete failed");
+  },
+});
+
+
+  const handleDelete = (id) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#FDC700",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteMutation.mutate(id);
+    }
+  });
+};
 
   return (
     <div className="p-10 bg-slate-100 rounded-md shadow-2xl ">
@@ -68,6 +105,7 @@ const AllIncomeData = () => {
                 <th>Date</th>
                 <th>Type</th>
                 <th>Amount</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -77,6 +115,17 @@ const AllIncomeData = () => {
                   <td>{item.category}</td>
                   <td className="text-green-600 font-semibold">
                     ৳ {item.amount}
+                  </td>
+                  <td>
+                    <div className="flex gap-2">
+                      <FaEdit className="text-xl text-yellow-400" />
+                      <MdDelete
+                        onClick={() => {
+                          handleDelete(item._id);
+                        }}
+                        className="text-xl text-red-600"
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -95,6 +144,7 @@ const AllIncomeData = () => {
                 <th>Date</th>
                 <th>Type</th>
                 <th>Amount</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -104,6 +154,17 @@ const AllIncomeData = () => {
                   <td>{item.category}</td>
                   <td className="text-red-600 font-semibold">
                     ৳ {item.amount}
+                  </td>
+                  <td>
+                    <div className="flex gap-2">
+                      <FaEdit className="text-xl text-yellow-400" />
+                      <MdDelete
+                        onClick={() => {
+                          handleDelete(item._id);
+                        }}
+                        className="text-xl text-red-600"
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}
